@@ -1,17 +1,6 @@
 <script>
     import { sendpost_finish, addcategory } from "../javascript/connect";
-    import { onMount } from "svelte";
     let editor;
-
-    export let toolbarOptions = [
-        [{ header: 1 }, { header: 2 }, "blockquote", "link", "image", "video"],
-        ["bold", "italic", "underline", "strike"],
-        [{ list: "ordered" }, { list: "ordered" }],
-        [{ align: [] }],
-        ["clean"],
-    ];
-
-
 </script>
 
 <ul>
