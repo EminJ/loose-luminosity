@@ -1,6 +1,5 @@
 <script>
     import { sendpost_finish, addcategory } from "../javascript/connect";
-    let editor;
 </script>
 
 <ul>
@@ -62,7 +61,7 @@
         <p class="category" id="category" />
     </li>
     <li>
-        <button id="send_database_post_btn" on:click={sendpost_finish(editor)}
+        <button id="send_database_post_btn" on:click={sendpost_finish('a')}
             ><i class="bx bx-send" /> Gönder</button
         >
     </li>
