@@ -5,7 +5,7 @@
   
 	let postsInfo=[];
   onMount(async () => {
-    const { data } = await axios.get('http://54.157.69.5:5678/api/show/post');
+    const { data } = await axios.get('http://3.87.32.105:5678/api/show/post');
     postsInfo = data.blogposts;
   });
   
