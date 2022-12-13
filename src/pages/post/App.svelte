@@ -1,5 +1,4 @@
 <script>
-  export let params;
   import { onMount } from "svelte";
   import {
     gets,
@@ -8,11 +7,13 @@
     send_message,
     postsave,
     deletemessage,
-    editmessage,
     editmessage_submit,
     loadmessage,
   } from "./components/script";
+  let params;
   onMount(async () => {
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    params = Object.fromEntries(urlSearchParams.entries()).id;
     gets(params);
   });
 </script>

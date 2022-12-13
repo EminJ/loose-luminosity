@@ -6,37 +6,37 @@ export async function gets(params){
     for (let i = 0; i < data.data.blogposts.length; i++) {
         const element = data.data.blogposts[i];
         if(element._id==params){
+            console.log(element);
             document.getElementById('post_name').innerHTML=element.post_title;
             document.getElementById('likecount').innerHTML=element.post_up;
             document.getElementById('dislikecount').innerHTML=element.post_down;
-            document.getElementById('main').innerHTML=unescape(element.post_text).split('</div>')[0].replace('<div class="ql-editor" data-gramm="false" contenteditable="true" data-placeholder="Blog Yazmaya başla..." style="user-select: auto;">','<div>').replace('<div class="ql-editor" data-gramm="false" contenteditable="true" data-placeholder="Blog Yazmaya başla...">','<div>').replaceAll('<img','<img style="max-width:100%"');
-            axios.post('https://191.101.1.221:5678/api/test/post', {
-                token:decodeURIComponent(document.cookie).split(';')[0].split('=')[1] || '',
-                postid: params,
-            })
-            .then(function (response) {
-                if(response.data.message==['0']){
-                    document.getElementById('like').style.color='#389d77';
-                }
-                if(response.data.message==['1']){
-                    document.getElementById('dislike').style.color='#b4241c';
-                }
-                if(response.data.message==['2']){
-                    document.getElementById('comments').style.color='#389d77';
-                }
-                if(response.data.message==['02']){
-                    document.getElementById('like').style.color='#389d77';
-                    document.getElementById('comments').style.color='#389d77';
-                }
-                if(response.data.message==['12']){
-                    document.getElementById('dislike').style.color='#b4241c';
-                    document.getElementById('comments').style.color='#389d77';
-                }
-            });
-            return;
+            document.getElementById('main').innerHTML=unescape(element.post_text).split('</div>')[0].replace('<div class="ql-editor" data-gramm="false" contenteditable="true" data-placeholder="Blog Yazmaya başla..." style="user-select: auto;">','<div>').replace('<div class="ql-editor" data-gramm="false" contenteditable="true" data-placeholder="Blog Yazmaya başla...">','<div>');
+            break;
         }
     }
-    
+    axios.post('https://191.101.1.221:5678/api/test/post', {
+        token:decodeURIComponent(document.cookie).split(';')[0].split('=')[1] || '',
+        postid: params,
+    })
+    .then(function (response) {
+        if(response.data.message==['0']){
+            document.getElementById('like').style.color='#389d77';
+        }
+        if(response.data.message==['1']){
+            document.getElementById('dislike').style.color='#b4241c';
+        }
+        if(response.data.message==['2']){
+            document.getElementById('comments').style.color='#389d77';
+        }
+        if(response.data.message==['02']){
+            document.getElementById('like').style.color='#389d77';
+            document.getElementById('comments').style.color='#389d77';
+        }
+        if(response.data.message==['12']){
+            document.getElementById('dislike').style.color='#b4241c';
+            document.getElementById('comments').style.color='#389d77';
+        }
+    });
 }
 
 export async function loadmessage(params) {
@@ -104,6 +104,7 @@ export async function dislike(params){
         alert("Lütfen Giriş Yapınız...");
     });
 }
+
 export async function send_message(params){
     axios.post('https://191.101.1.221:5678/api/post/comments', {
         token:decodeURIComponent(document.cookie).split(';')[0].split('=')[1] || '',
