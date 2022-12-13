@@ -5,8 +5,12 @@
   
 	let postsInfo=[];
   onMount(async () => {
-    const { data } = await axios.get('http://191.101.1.221:5678/api/show/post');
-    postsInfo = data.blogposts;
+    const options = {method: 'GET', url: 'http://191.101.1.221:5678/api/show/post'};
+  axios.request(options).then(function (response) {
+    postsInfo = response.data.blogposts;
+  }).catch(function (error) {
+    console.error(error);
+  });
   });
   
 </script>
