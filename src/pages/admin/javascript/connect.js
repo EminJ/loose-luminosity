@@ -32,12 +32,13 @@ export function addcategory() {
     });
 }
 
-export function sendpost_finish(text) {
+export function sendpost_finish() {
     let decodedCookie = decodeURIComponent(document.cookie).split(';')[0].split('=')[1];
     const title = document.getElementById('send_title').value;
     const explanation = document.getElementById('send_explanation').value;
     const image = document.getElementById('send_image');
     const category = document.getElementById('category');
+    const blogcontent = document.getElementById('blogcontent');
     let arr=category.innerHTML.split(' ');
     let catarray=[];
     for (let i = 0; i < arr.length-1; i++) {
@@ -48,7 +49,7 @@ export function sendpost_finish(text) {
         author:decodedCookie,
         title: title,
         explanation: explanation,
-        text: escape(text.innerHTML),
+        text: escape(blogcontent.value),
         category: catarray
     })
     .then(function (response) {

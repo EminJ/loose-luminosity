@@ -6,8 +6,6 @@
       token = decodeURIComponent(document.cookie).split(';')[0].split('=')[1];
     });
   </script>
-  {#await token}
-    ..
-  {:then token} 
+  {#if token}
     <List postsArray={token}/>
-  {/await}
+  {/if}

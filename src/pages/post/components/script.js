@@ -6,11 +6,10 @@ export async function gets(params){
     for (let i = 0; i < data.data.blogposts.length; i++) {
         const element = data.data.blogposts[i];
         if(element._id==params){
-            console.log(element);
             document.getElementById('post_name').innerHTML=element.post_title;
             document.getElementById('likecount').innerHTML=element.post_up;
             document.getElementById('dislikecount').innerHTML=element.post_down;
-            document.getElementById('main').innerHTML=unescape(element.post_text).split('</div>')[0].replace('<div class="ql-editor" data-gramm="false" contenteditable="true" data-placeholder="Blog Yazmaya başla..." style="user-select: auto;">','<div>').replace('<div class="ql-editor" data-gramm="false" contenteditable="true" data-placeholder="Blog Yazmaya başla...">','<div>');
+            document.getElementById('main').innerHTML=unescape(element.post_text).split('</div>')[0].replace('<div class="ql-editor" data-gramm="false" contenteditable="true" data-placeholder="Blog Yazmaya başla..." style="user-select: auto;">','<div>').replace('<div class="ql-editor" data-gramm="false" contenteditable="true" data-placeholder="Blog Yazmaya başla...">','<div>').replaceAll('<img','<img style="max-width:100%"');
             break;
         }
     }
@@ -38,20 +37,6 @@ export async function gets(params){
         }
     });
 }
-
-export async function loadmessage(params) {
-    const options = {
-      method: "POST",
-      url: "https://191.101.1.221:5678/api/show/post/comments",
-      headers: { "Content-Type": "application/json" },
-      data: {
-        postid: params,
-        token: decodeURIComponent(document.cookie).split(';')[0].split('=')[1] || '',
-      },
-    };
-    const response = await axios.request(options);
-    return response.data;
-  }
 
 export async function like(params){
     axios.post('https://191.101.1.221:5678/api/post/like', {

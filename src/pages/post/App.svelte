@@ -1,21 +1,30 @@
 <script>
   import { onMount } from "svelte";
+  import axios from "axios";
+  import Message from "./message.svelte";
   import {
     gets,
     like,
     dislike,
     send_message,
     postsave,
-    deletemessage,
-    editmessage_submit,
-    loadmessage,
   } from "./components/script";
   let params;
+  let msgveriable;
   onMount(async () => {
     const urlSearchParams = new URLSearchParams(window.location.search);
     params = Object.fromEntries(urlSearchParams.entries()).id;
     gets(params);
+    axios.post('https://191.101.1.221:5678/api/show/post/comments', {
+        token:decodeURIComponent(document.cookie).split(';')[0].split('=')[1] || '',
+        postid: params,
+    })
+    .then(function (response) {
+        console.log(response.data);
+        msgveriable=response.data;
+    });
   });
+  
 </script>
 
 <div class="outline">
@@ -36,7 +45,7 @@
     </div>
   </div>
 
-    <div class="main" id="main"></div>
+  <div class="main" id="main" />
 
   <div class="alert" id="alertdel">
     <span class="closebtn" onclick="this.parentElement.style.display='';"
@@ -64,74 +73,16 @@
 
     <button class="commentsbtn" on:click={send_message(params)}>Gönder</button>
     <div id="show_comments">
-      {#await loadmessage(params)}
-        <span />
-      {:then originpost}
-        {#each originpost.msg as msgp}
-          {#if originpost.token == msgp.userid || originpost.roles == "635eb25438b20b702d8adfc9" || originpost.roles == "635eb25438b20b702d8adfc8"}
-            <div class="message_outline" id={msgp.messageid}>
-              <p class="message_textline">
-                <span>
-                  {msgp.user}
-                  <span style="font-size: 0.8rem;">#{msgp.messageid}</span>
-                </span>
-                <span>
-                  <a
-                    href="/"
-                    on:click={deletemessage(msgp.messageid, params)}
-                    onclick="return false"
-                    class="msgdel">x</a
-                  >
-                  {msgp.datetime}</span
-                >
-              </p>
-              <p
-                style="margin: 6px;word-wrap: break-word;"
-                id="text-area{msgp.messageid}"
-              >
-                {msgp.message}
-              </p>
-              <p id="edit-text{msgp.messageid}" style="display: none;">
-                <input
-                  type="text"
-                  style="margin: 6px;word-wrap: break-word; border: 0; font-size:1rem;color: #a0a0a0;"
-                  id="newtext_msg{msgp.messageid}"
-                  value={msgp.message}
-                />
-                <a
-                  href="/"
-                  on:click={editmessage_submit(msgp.messageid, msgp.message)}
-                  onclick="return false"
-                  style="background-color: #389d77; font-size: 0.9rem;padding: 2px 8px; color:#f9f9f9;border-radius:8px"
-                  >Kaydet</a
-                >
-              </p>
-            </div>
-          {:else}
-            <div class="message_outline">
-              <p class="message_textline">
-                <span>
-                  {msgp.user}
-                  <span style="font-size: 0.8rem;">#{msgp.messageid}</span>
-                </span>
-                <span>{msgp.datetime}</span>
-              </p>
-              <p style="margin: 6px;word-wrap: break-word;">{msgp.message}</p>
-            </div>
-          {/if}
-        {/each}
-      {:catch error}
-      <script>
-        window.open('/errorpage','_self'
-    );
-    </script>
-      {/await}
+      {#if msgveriable}
+        <Message postsArray={msgveriable} params={params}/>
+      {/if}
     </div>
   </div>
 </div>
+
 <style>
   @import "https://cdn.quilljs.com/1.3.6/quill.snow.css";
-  #post_name{
+  #post_name {
     margin-right: 10px;
   }
   .alert {
@@ -221,74 +172,53 @@
     color: #389d77;
     font-weight: bold;
   }
-  .message_outline {
-    margin: 20px 0;
-    width: 600px;
-    height: auto;
-    padding: 10px;
-    border: 1px solid #389d77;
-    border-radius: 6px;
-  }
-  .message_textline {
-    display: flex;
-    justify-content: space-between;
-    padding-bottom: 6px;
-    border-bottom: 1px solid #a5a5a5;
-  }
-  .msgdel {
-    padding: 0 8px;
-    color: #f9f9f9;
-    border-radius: 5px;
-    background-color: #b4241c;
-    margin: 0 5px;
-  }
   @media screen and (max-width: 1080px) {
-    .outline{
+    .outline {
       width: 860px;
     }
-    }
-	@media screen and (max-width: 960px) {
-    .outline{
+  }
+  @media screen and (max-width: 960px) {
+    .outline {
       width: 750px;
     }
-    }
-    @media screen and (max-width: 820px) {
-      .outline{
+  }
+  @media screen and (max-width: 820px) {
+    .outline {
       width: 550px;
     }
-    .message_outline{
+    .message_outline {
       width: 460px;
     }
-    .commentstext{
+    .commentstext {
       width: 290px;
     }
-    }
-    @media screen and (max-width: 620px) {
-      .outline{
+  }
+  @media screen and (max-width: 620px) {
+    .outline {
       width: 480px;
     }
-    .message_outline{
+    .message_outline {
       width: 380px;
     }
-    .commentstext{
+    .commentstext {
       width: 200px;
     }
-    }
-    @media screen and (max-width: 540px) {
-      .outline{
+  }
+  @media screen and (max-width: 540px) {
+    .outline {
       width: 350px;
     }
-    .message_outline{
+    .message_outline {
       width: 320px;
     }
-    .commentstext{
+    .commentstext {
       width: 200px;
     }
-    #likecount{
+    #likecount {
       display: none;
     }
-    #dislikecount{
+    #dislikecount {
       display: none;
     }
-    }
+  }
 </style>

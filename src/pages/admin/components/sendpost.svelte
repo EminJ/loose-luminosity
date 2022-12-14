@@ -38,7 +38,7 @@
     <li>
         <p>Gönderi İçeriği</p>
         <div class="editor-wrapper">
-            
+            <textarea id="blogcontent"></textarea>
         </div>
     </li>
     <li>
@@ -61,30 +61,27 @@
         <p class="category" id="category" />
     </li>
     <li>
-        <button id="send_database_post_btn" on:click={sendpost_finish('a')}
+        <button id="send_database_post_btn" on:click={() => sendpost_finish()}
             ><i class="bx bx-send" /> Gönder</button
         >
     </li>
-    <script type="text/javascript">
-        function encodeImageFileAsURL() {
-            var filesSelected = document.getElementById("send_image").files;
-            if (filesSelected.length > 0) {
-                var fileToLoad = filesSelected[0];
-
-                var fileReader = new FileReader();
-
-                fileReader.onload = function (fileLoadedEvent) {
-                    var srcData = fileLoadedEvent.target.result;
-                    console.log(srcData);
-                };
-                fileReader.readAsDataURL(fileToLoad);
-            }
-        }
-    </script>
 </ul>
 
 <style>
     @import "https://cdn.quilljs.com/1.3.6/quill.snow.css";
+    #blogcontent{
+        width: 300px;
+        max-width: 600px;
+        height: 200px;
+        border: 0;
+        border-radius: 0.5rem;
+        padding: 5px;
+    }
+    #blogcontent:focus{
+        outline: none;
+        border: 0;
+        box-shadow: 0 0 11px 0 #389d76aa;
+    }
     .editor-wrapper {
         width: 600px;
     }
