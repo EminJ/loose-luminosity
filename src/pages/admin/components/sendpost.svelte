@@ -36,7 +36,7 @@
         />
     </li>
     <li>
-        <p>Gönderi İçeriği</p>
+        <p>Gönderi İçeriği</p> <a href="https://onlinehtmleditor.dev/">online editor</a>
         <div class="editor-wrapper">
             <textarea id="blogcontent"></textarea>
         </div>
